@@ -56,5 +56,3 @@ print(f"\nTotal weight of packages sent: {total_weight_of_packages_sent} kg")
 print(f"\nTotal unused capacity: {total_unused_capacity} kg")
 print(f"\nPackage {max_unused_capacity_package} has the most unused capacity: {max_unused_capacity} kg")
 
-
-
