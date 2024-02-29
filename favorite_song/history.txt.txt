@@ -1,0 +1,57 @@
+$ git log -p
+commit d4ccf9e2a51e967d14f9aae146e3a4b201fdf70b (HEAD)
+Author: Sam <you@example.com>
+Date:   Sun Feb 4 17:45:51 2024 +0000
+
+    thirteenth
+
+diff --git a/song.txt b/done_for_me.txt
+similarity index 100%
+rename from song.txt
+rename to done_for_me.txt
+
+commit a3ebe58378cd206ec6777be31f5bf2f39a8c27f1
+Author: Sam <you@example.com>
+Date:   Sun Feb 4 17:30:26 2024 +0000
+
+    tenth commit
+
+diff --git a/song.txt b/song.txt
+index e69de29..f2d637f 100644
+--- a/song.txt
++++ b/song.txt
+@@ -0,0 +1,80 @@
++Oh, oh
++
++
++What you thinking?
++You think that you could be better off with somebody new
++(No oh, oh baby, no)
++You say you're leaving
++Well if you wanna leave there ain't nobody stopping you
++(No oh, oh baby, no)
++
++
++I won't beg for your love
++Won't say please
++I won't fall to the ground on my knees
++You know I've given this everything
++Baby honestly, baby honestly
++
++
++I lie for you baby
++I die for you baby
++Cry for you baby
++But tell me what you've done for me
++For you baby
++And only you baby
++The things I do baby
++But tell me what you've done for me
++
++
++I never cheated
++Deleted everyone cause they made you uncomfortable
++(No oh, oh baby, no)
++These accusations
++I can't apologize for something that I didn't do
++(No oh, oh baby, no)
