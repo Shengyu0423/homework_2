@@ -6,6 +6,7 @@ warehouse_inventory = {
     "monster-citrus": {"price": 3.5, "quantities": 15}
 }
 
+
 account_balance = 1000
 
 recorded_operations = [] #save all the operation
