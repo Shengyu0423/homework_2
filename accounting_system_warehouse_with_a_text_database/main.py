@@ -1,12 +1,6 @@
-from functions import save_balance_to_file, save_inventory_to_file, save_operations_to_file
+from functions import save_balance_to_file, save_inventory_to_file, save_operations_to_file, load_original_warehouse_inventory
 
-warehouse_inventory = {
-    "monster-original": {"price": 2, "quantities": 50},
-    "monster-passionfruit": {"price": 2.5, "quantities": 30},
-    "monster-mango": {"price": 2.5, "quantities": 30},
-    "monster-kiwi": {"price": 3, "quantities": 20},
-    "monster-citrus": {"price": 3.5, "quantities": 15}
-}
+warehouse_inventory = {}
 
 account_balance = 1000
 
@@ -14,10 +8,14 @@ recorded_operations = [] #save all the operation
 
 while True:
     print("\nWelcome to the Monster Beverage Corporation!")
-    print("\nAvailable commands: balance, sale, purchase, account, list, warehouse, review, end")
+    print("\nIn order to load data sucessfully, please kindly choose 'load' first for command.")
+    print("\nAvailable commands: load, balance, sale, purchase, account, list, warehouse, review, end")
     command = input("\nEnter a command: ").lower()
 
-    if command == "balance":
+    if command == "load":
+        filename = input("Provide filename to read warehouse inventory: ")
+        warehouse_inventory = load_original_warehouse_inventory(filename + ".txt")
+    elif command == "balance":
         try:
             amount = float(input("\nPlease add or subtract the amount to the account: "))
             account_balance += amount
@@ -119,8 +117,8 @@ while True:
 
     elif command == "review":
         try:
-            from_index = input("\nEnter the 'from' index: ")
-            to_index = input("\nEnter the 'to' index: ")
+            from_index = input("\nEnter the 'starting' index: ")
+            to_index = input("\nEnter the 'end' index: ")
 
             if from_index == "":
                 from_index = 1
@@ -149,7 +147,7 @@ while True:
     elif command == "end":
         # Save data to files before exiting
         save_balance_to_file(account_balance, "balance.txt")
-        save_inventory_to_file(warehouse_inventory, "inventory.txt")
+        save_inventory_to_file(warehouse_inventory, "renewed_inventory.txt")
         save_operations_to_file(recorded_operations, "operations.txt")
         print("\nGoodbye! Hope you have a nice day! ")
         break

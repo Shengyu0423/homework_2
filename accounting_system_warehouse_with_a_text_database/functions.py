@@ -24,3 +24,14 @@ def save_operations_to_file(operations, filename):
         print("Recorded operations saved successfully!")
     except Exception as e:
         print(f"Error saving recorded operations: {e}")
+
+def load_original_warehouse_inventory(filename):
+    try:
+        with open(filename, 'r') as file:
+            content = file.read()
+            original_warehouse_inventory = eval(content)
+        print("warehouse inventory successfully!")
+        return original_warehouse_inventory
+    except Exception as e:
+        print(f"Error loading warehouse inventory: {e}")
+        return {}

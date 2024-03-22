@@ -86,6 +86,9 @@ while True:
                         # Add new product to inventory
                         warehouse_inventory[product_name] = {"price": price, "quantities": quantity}
                         print("\nNew product added to inventory successfully!")
+
+                        # Record the operation
+                        recorded_operations.append(("purchase", product_name, price, quantity))
                     else:
                         print("\nError: Insufficient account balance for purchase!")
                 else:

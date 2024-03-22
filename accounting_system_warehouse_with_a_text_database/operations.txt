@@ -1,0 +1,5 @@
+Type: sale, Product Name: monster-original, Price: 2.0, Quantities: 40
+Type: sale, Product Name: monster-mango, Price: 2.5, Quantities: 10
+Type: purchase, Product Name: monster-original, Price: 2.0, Quantities: 100
+Type: purchase, Product Name: monster-kiwi, Price: 3.0, Quantities: 40
+Type: purchase, Product Name: monster-watermelon, Price: 5.0, Quantities: 60
