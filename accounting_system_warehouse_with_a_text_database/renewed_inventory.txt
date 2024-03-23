@@ -1,6 +1,0 @@
-Product name: monster-original, Price: 2, Quantities: 110
-Product name: monster-passionfruit, Price: 2.5, Quantities: 30
-Product name: monster-mango, Price: 2.5, Quantities: 20
-Product name: monster-kiwi, Price: 3, Quantities: 60
-Product name: monster-citrus, Price: 3.5, Quantities: 15
-Product name: monster-watermelon, Price: 5.0, Quantities: 60

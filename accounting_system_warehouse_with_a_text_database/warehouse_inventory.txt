@@ -1,0 +1,11 @@
+{
+    "account_balance": 1000,
+    "recorded_operations": [],
+    "warehouse_inventory": {
+        "monster-original": {"price": 2, "quantities": 50},
+        "monster-passionfruit": {"price": 2.5, "quantities": 30},
+        "monster-mango": {"price": 2.5, "quantities": 30},
+        "monster-kiwi": {"price": 3, "quantities": 20},
+        "monster-citrus": {"price": 3.5, "quantities": 15}
+    }
+}

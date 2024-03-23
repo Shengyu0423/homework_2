@@ -1,37 +1,20 @@
-def save_balance_to_file(balance, filename):
+def save_data_to_file(inventory, filename):
     try:
         with open(filename, 'w') as file:
-            file.write(str(balance))
-        print("Account balance saved successfully!")
+            file.write(str(inventory))
+        print("Data saved successfully!")
     except Exception as e:
-        print(f"Error saving account balance: {e}")
+        print(f"Error saving data to file: {e}")
 
-def save_inventory_to_file(inventory, filename):
-    try:
-        with open(filename, 'w') as file:
-            for product, details in inventory.items():
-                file.write(f"Product name: {product}, Price: {details['price']}, Quantities: {details['quantities']}\n")
-        print("Warehouse inventory saved successfully!")
-    except Exception as e:
-        print(f"Error saving warehouse inventory: {e}")
-
-def save_operations_to_file(operations, filename):
-    try:
-        with open(filename, 'w') as file:
-            for operation in operations:
-                operation_type, product_name, price, quantity = operation
-                file.write(f"Type: {operation_type}, Product Name: {product_name}, Price: {price}, Quantities: {quantity}\n")
-        print("Recorded operations saved successfully!")
-    except Exception as e:
-        print(f"Error saving recorded operations: {e}")
-
-def load_original_warehouse_inventory(filename):
+def load_data_from_file(filename):
     try:
         with open(filename, 'r') as file:
             content = file.read()
-            original_warehouse_inventory = eval(content)
-        print("warehouse inventory successfully!")
-        return original_warehouse_inventory
+            data = eval(content)
+        print("Data loaded successfully!")
+        return data
     except Exception as e:
-        print(f"Error loading warehouse inventory: {e}")
+        print(f"Error loading data from file: {e}")
         return {}
+
+
