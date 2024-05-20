@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monster Beverage Corporation Warehouse Account System</title>
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-exp.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-icons.min.css">
+    <style>
+        body {
+            margin-left: 20%;
+            margin-right: 20%;
+        }
+    
+        .account-text {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header class="navbar">
+        <section class="navbar-section">
+            <a href="index.html" class="navbar-brand mr-2 text-success">MonsterWarehouse</a>
+            <a href="balance.html" class="btn btn-link btn btn-lg text-success">Balance</a>
+            <a href="sale.html" class="btn btn-link btn btn-lg text-success">Sale</a>
+            <a href="purchase.html" class="btn btn-link btn btn-lg text-success">Purchase</a>
+            <a href="history.html" class="btn btn-link btn btn-lg text-success">History</a>
+        </section>
+        <section class="navbar-section">
+            <h6 class="account-text text-error">Account:&nbsp;</h6>
+            <h6 class="account-text text-error">€1000</h6>
+        </section>
+    </header>
+
+    <div class="form-group">
+        <form action="/submit" method="post">
+            <div class="form-group">
+                <label class="form-label">Operation Type:</label>
+                <label class="form-radio">
+                  <input type="radio" name="balance" checked>
+                  <i class="form-icon"></i> Add
+                </label>
+                <label class="form-radio">
+                  <input type="radio" name="balance">
+                  <i class="form-icon"></i> Substract
+                </label>
+            </div>
+            <label class="form-label" for="money">Amount:</label>
+            <input class="form-input" type="number" id="money" name="money" value="100">
+            <input class="btn btn-primary" type="submit" value="Submit">
+        </form>
+    </div>
+</body>
+</html>
