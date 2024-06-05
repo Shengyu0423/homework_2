@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h3 class="head">History</h3>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Timestamp</th>
+                <th>Operation</th>
+                <th>Flavor</th>
+                <th>Price per unit</th>
+                <th>Quantity</th>
+                <th>Total amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for record in history %}
+                <tr>
+                    <td>{{ record.timestamp }}</td>
+                    <td>{{ record.operation }}</td>
+                    <td>{{ record.flavor }}</td>
+                    <td>{{ record.price_per_unit }}</td>
+                    <td>{{ record.quantity }}</td>
+                    <td>{{ record.total_amount }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

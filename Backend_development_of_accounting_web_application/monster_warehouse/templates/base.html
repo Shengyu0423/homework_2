@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monster Beverage Corporation Warehouse Account System</title>
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-exp.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-icons.min.css">
+    <style>
+        body {
+            margin-left: 20%;
+            margin-right: 20%;
+        }
+
+        .account-text {
+            margin-top: 10px;
+        }
+        .head {
+            margin-top:70px;
+            color:black
+        }
+    </style>
+</head>
+<body>
+    <header class="navbar">
+        <section class="navbar-section">
+          <a href="/" class="navbar-brand mr-2 text-success">MonsterWarehouse</a>
+          <a href="balance" class="btn btn-link btn btn-lg text-success">Balance</a>
+          <a href="sale" class="btn btn-link btn btn-lg text-success">Sale</a>
+          <a href="purchase" class="btn btn-link btn btn-lg text-success">Purchase</a>
+          <a href="history" class="btn btn-link btn btn-lg text-success">History</a>
+        </section>
+        <section class="navbar-section">
+            <h6 class="account-text text-error">Account:&nbsp;</h6>
+            <h6 class="account-text text-error">{{ balance }}</h6>
+        </section>
+    </header>
+    <div style = "margin-top: 20px;">
+        {% block content %}
+        {% endblock %}
+    </div>
+</body>
+</html>

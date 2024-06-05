@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <legend>Select</legend>
+    <div class="form-group">
+        <form action="/submit_sale" method="post">
+            <select class="form-select" name="flavor" required>
+                <option value="">Choose an option</option>
+                <option value="Original">Original</option>
+                <option value="Passionfruit">Passionfruit</option>
+                <option value="Mango">Mango</option>
+                <option value="Kiwi">Kiwi</option>
+                <option value="Citrus">Citrus</option>
+            </select>
+            <label class="form-label" for="price_per_unit">Price per unit:</label>
+            <input class="form-input" type="number" id="price_per_unit" name="price per unit" step="0.1" value="0" required>
+            <label class="form-label" for="quantity">Quantity:</label>
+            <input class="form-input" type="number" id="quantity" name="quantity" value="5" required>
+            <input class="btn btn-primary" type="submit" value="Submit">
+        </form>
+    </div>
+{% endblock %}
