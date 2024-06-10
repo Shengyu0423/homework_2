@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h3 class="head">History</h3>
+    <form action="/history" method="get" class="form-group">
+        <div>
+            <label for="start_date">Start Date</label>
+            <input type="date" name="start_date" id="start_date" class="form-input">
+        <div>
+            <label for="end_date">End Date</label>
+            <input type="date" name="end_date" id="end_date" class="form-input">
+        </div>
+        <div>
+            <label for="operation">Operation</label>
+            <select type="text" id="flavor" name="operation" class="form-select">
+                <option value="">All</option>
+                <option value="add">Add</option>
+                <option value="substract">Substract</option>
+                <option value="purchase">Purchase</option>
+                <option value="sale">Sale</option>
+            </select>
+        </div>
+        <div>
+            <label for="flavor">Flavor</label>
+            <input type="text" id="flavor" name="flavor" class="form-input">
+        </div>
+        <div>
+            <label for="price_per_unit">Price per unit</label>
+            <input type="number" step="0.01" id="price_per_unit" name="price_per_unit" class="form-input">
+        </div>
+        <div>
+            <label for="quantity">Quantity</label>
+            <input type="number" id="quantity" name="quantity" class="form-input">
+        </div>
+        <div>
+            <label for="total_amount">Total amount</label>
+            <input type="number" step="0.01" id="total_amount" name="total_amount" class="form-input">
+        </div>
+        <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Timestamp</th>
+                <th>Operation</th>
+                <th>Flavor</th>
+                <th>Price per unit</th>
+                <th>Quantity</th>
+                <th>Total amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for record in history %}
+                <tr>
+                    <td>{{ record.timestamp }}</td>
+                    <td>{{ record.operation }}</td>
+                    <td>{{ record.flavor or '-'}}</td>
+                    <td>{{ record.price_per_unit or '-'}}</td>
+                    <td>{{ record.quantity or '-'}}</td>
+                    <td>{{ record.total_amount }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
