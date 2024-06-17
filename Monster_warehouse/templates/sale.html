@@ -4,13 +4,22 @@
     <legend>Select</legend>
     <div class="form-group">
         <form action="/submit_sale" method="post">
-            <label class="form-label" for="flavor">Flavor:</label>
-            <input class="form-input" type="text" id="flavor" name="flavor" pattern="[A-Za-z\s]+" title="Flavor should only contain letters and spaces" required>
-            <label class="form-label" for="price_per_unit">Price per unit:</label>
-            <input class="form-input" type="number" id="price_per_unit" name="price per unit" step="0.1" min="0.1" title="Price per unit must be a positive number" required>
-            <label class="form-label" for="quantity">Quantity:</label>
-            <input class="form-input" type="number" id="quantity" name="quantity" min="1" title="Quantity must be a positive number" required>
-            <input class="btn btn-primary" type="submit" value="Submit">
+            <div class="form-group">
+                <label class="form-label" for="flavor">Flavor:</label>
+                <input class="form-input" type="text" id="flavor" placeholder="Original, Mango, Watermelon, etc" name="flavor" pattern="[A-Za-z\s]+" title="Flavor should only contain letters and spaces" required>
+                <p class="form-input-hint">Flavor should only contain letters and spaces.</p>
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="price_per_unit">Price Per Unit:</label>
+                <input class="form-input" type="number" id="price_per_unit" name="price per unit" step="0.1" min="0.1" title="Price per unit must be a positive number." required>
+                <p class="form-input-hint">Price per unit must be a positive number.</p>
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="quantity">Quantity:</label>
+                <input class="form-input" type="number" id="quantity" name="quantity" min="1" title="Quantity must be a positive number." required>
+            <p class="form-input-hint">Quantity must be a positive number.</p>
+            </div>
+            <input class="btn btn-success btn-lg" type="submit" value="Submit">
         </form>
     </div>
 {% endblock %}

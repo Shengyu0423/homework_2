@@ -13,42 +13,60 @@ class Monster(db.Model):
     price_per_unit = db.Column(db.Float, nullable=False)
     quantity = db.Column(db.Integer, nullable=False)
 
-# Global variable for balance and history
-current_balance = 1000.0 # initial balance with a default value
-history = []
+# Database model for Balance
+class Balance(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    amount = db.Column(db.Float, nullable=False, default=0.0)
+
+# Database model for History
+class History(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    timestamp = db.Column(db.DateTime, nullable=False)
+    operation = db.Column(db.String(50), nullable=False)
+    flavor = db.Column(db.String(50))
+    price_per_unit = db.Column(db.Float)
+    quantity = db.Column(db.Integer)
+    total_amount = db.Column(db.Float)
 
 @app.route('/')
 def index():
     monsters = Monster.query.all()
-    return render_template('index.html', monsters=monsters, balance=current_balance)
+    balance = Balance.query.first()
+    return render_template('index.html', monsters=monsters, balance=balance.amount)
 
 @app.route('/balance')
 def balance_view():
-    global current_balance
-    return render_template('balance.html', balance=current_balance)
+    balance = Balance.query.first()
+    return render_template('balance.html', balance=balance.amount)
 
 @app.route('/submit_balance', methods=['POST'])
 def submit_balance():
-    global current_balance
+    balance = Balance.query.first()
     operation = request.form.get('operation')
     amount = float(request.form.get('amount'))
 
     if operation == 'add':
-        current_balance += amount
-        history.append({'timestamp': datetime.now().strftime("%Y-%m-%d %H:%M:%S"), 'operation': 'add', 'total_amount': amount})
+        balance.amount += amount
+        timestamp = datetime.now()
+        history_record = History(timestamp=timestamp, operation='add', total_amount=amount)
+        db.session.add(history_record)
     elif operation == 'substract':
-        current_balance -= amount
-        history.append({'timestamp': datetime.now().strftime("%Y-%m-%d %H:%M:%S"), 'operation': 'substract', 'total_amount': amount})    
+        balance.amount -= amount
+        timestamp = datetime.now()
+        history_record = History(timestamp=timestamp, operation='substract', total_amount=amount)
+        db.session.add(history_record)
+
+    db.session.commit()    
 
     return redirect(url_for('index'))
 
 @app.route('/purchase')
 def purchase():
-    return render_template('purchase.html', balance=current_balance)
+    balance = Balance.query.first()
+    return render_template('purchase.html', balance=balance.amount)
 
 @app.route('/submit_purchase', methods=['POST'])
 def submit_purchase():
-    global current_balance
     flavor = request.form.get('flavor')
     price_per_unit = request.form.get('price per unit')
     quantity = request.form.get('quantity')
@@ -65,7 +83,13 @@ def submit_purchase():
         return "Invalid price per unit or quantity. Please enter a valid number", 400
     
     total_amount = price_per_unit * quantity
-    current_balance -= total_amount
+    balance = Balance.query.first()
+    
+    # Check if the balance is enough to purchase
+    if balance.amount < total_amount:
+        return "Not enough balance to purchase", 400
+    
+    balance.amount -= total_amount
 
     # Check if the flavor exists in the database
     monster = Monster.query.filter_by(flavor=flavor).first()
@@ -79,19 +103,23 @@ def submit_purchase():
     
     db.session.commit()
 
-    history.append({'timestamp': datetime.now().strftime("%Y-%m-%d %H:%M:%S"), 'operation': 'purchase', 'flavor': flavor, 'price_per_unit': price_per_unit, 'quantity': quantity, 'total_amount': total_amount})
+    timestamp = datetime.now()
+    history_record = History(timestamp=timestamp, operation='purchase', flavor=flavor, price_per_unit=price_per_unit, quantity=quantity, total_amount=total_amount)
+    db.session.add(history_record)
+    db.session.commit()
+
     return redirect(url_for('index'))
 
 @app.route('/sale')
 def sale():
-    return render_template('sale.html', balance=current_balance)
+    balance = Balance.query.first()
+    return render_template('sale.html', balance=balance.amount)
 
 @app.route('/submit_sale', methods=['POST'])
 def submit_sale():
-    global current_balance
     flavor = request.form.get('flavor')
-    price_per_unit = float(request.form.get('price per unit'))
-    quantity = int(request.form.get('quantity'))
+    price_per_unit = request.form.get('price per unit')
+    quantity = request.form.get('quantity')
 
     # Validate the input
     if not flavor.isalpha() or not flavor.replace(' ', '').isalpha():
@@ -103,16 +131,22 @@ def submit_sale():
             return "Price per unit and quantity should be greater than 0.", 400
     except ValueError:
         return "Invalid price per unit or quantity. Please enter a valid number"
+    
+    balance = Balance.query.first()
 
     # Check if the flavor exists in the database
     monster = Monster.query.filter_by(flavor=flavor).first()
     if monster and monster.quantity >= quantity:
         total_amount = price_per_unit * quantity
-        current_balance += total_amount
+        balance.amount += total_amount
         monster.quantity -= quantity
         db.session.commit()
 
-        history.append({'timestamp': datetime.now().strftime("%Y-%m-%d %H:%M:%S"), 'operation': 'sale', 'flavor': flavor, 'price_per_unit': price_per_unit, 'quantity': quantity, 'total_amount': total_amount})
+        timestamp = datetime.now()
+        history_record = History(timestamp=timestamp, operation='sale', flavor=flavor, price_per_unit=price_per_unit, quantity=quantity, total_amount=total_amount)
+        db.session.add(history_record)
+        db.session.commit()
+
         return redirect('/')
     else:
         return "Flavor not found or not enough quantity to sell", 400
@@ -127,58 +161,66 @@ def history_view():
     quantity = request.args.get('quantity')
     total_amount = request.args.get('total_amount')
 
-    # Initialize filtered_history
-    filtered_history = history
+    # Initialize query
+    history_query = History.query
 
     if start_date:
         try:
             start_date = datetime.strptime(start_date, "%Y-%m-%d")
-            filtered_history = [record for record in filtered_history if datetime.strptime(record['timestamp'], "%Y-%m-%d %H:%M:%S") >= start_date]
+            history_query = history_query.filter(History.timestamp >= start_date)
         except ValueError:
             pass
 
     if end_date:
         try:
             end_date = datetime.strptime(end_date, "%Y-%m-%d")
-            filtered_history = [record for record in filtered_history if datetime.strptime(record['timestamp'], "%Y-%m-%d %H:%M:%S") <= end_date]
+            history_query = history_query.filter(History.timestamp <= end_date)
         except ValueError:
             pass
 
     if operation:
-        filtered_history = [record for record in filtered_history if record['operation'] == operation]
+        history_query = history_query.filter_by(operation=operation)
 
     if flavor:
-        filtered_history = [record for record in filtered_history if record.get('flavor') and flavor.lower() in record['flavor'].lower()]
+        history_query = history_query.filter(History.flavor.ilike(f"%{flavor}%"))
 
     if price_per_unit:
         try:
             price_per_unit = float(price_per_unit)
-            filtered_history = [record for record in filtered_history if record.get('price_per_unit') and record['price_per_unit'] == price_per_unit]
+            history_query = history_query.filter_by(price_per_unit=price_per_unit)
         except ValueError:
             pass
 
     if quantity:
         try:
             quantity = int(quantity)
-            filtered_history = [record for record in filtered_history if record.get('quantity') and record['quantity'] == quantity]
+            history_query = history_query.filter_by(quantity=quantity)
         except ValueError:
             pass
 
     if total_amount:
         try:
             total_amount = float(total_amount)
-            filtered_history = [record for record in filtered_history if record.get('total_amount') == total_amount]
+            history_query = history_query.filter_by(total_amount=total_amount)
         except ValueError:
             pass
-
-    return render_template('history.html', balance=current_balance, history=filtered_history)
+        
+    balance = Balance.query.first()    
+    return render_template('history.html', balance=balance.amount, history=history_query.all())
 
 # Create the database and the db table
 with app.app_context():
     db.create_all()
 
+    # Initialize the balance if it does not exist
+    if not Balance.query.first():
+        balance = Balance(amount=0.0)
+        db.session.add(balance)
+        db.session.commit()
+
 if __name__ =="__main__":
     app.run(debug=True, port=5500)
+
 
 
 

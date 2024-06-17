@@ -6,6 +6,7 @@
         <div>
             <label for="start_date">Start Date</label>
             <input type="date" name="start_date" id="start_date" class="form-input">
+        </div>
         <div>
             <label for="end_date">End Date</label>
             <input type="date" name="end_date" id="end_date" class="form-input">
@@ -22,10 +23,10 @@
         </div>
         <div>
             <label for="flavor">Flavor</label>
-            <input type="text" id="flavor" name="flavor" class="form-input">
+            <input type="text" id="flavor" placeholder="Original, Mango, Watermelon, etc" name="flavor" class="form-input">
         </div>
         <div>
-            <label for="price_per_unit">Price per unit</label>
+            <label for="price_per_unit">Price Per Unit</label>
             <input type="number" step="0.01" id="price_per_unit" name="price_per_unit" class="form-input">
         </div>
         <div>
@@ -33,26 +34,30 @@
             <input type="number" id="quantity" name="quantity" class="form-input">
         </div>
         <div>
-            <label for="total_amount">Total amount</label>
+            <label for="total_amount">Total Amount</label>
             <input type="number" step="0.01" id="total_amount" name="total_amount" class="form-input">
         </div>
-        <button type="submit" class="btn btn-primary">Search</button>
+        <div class="btn-group btn-group-block">
+            <button class="btn btn-success">Search</button>
+            <button class="btn btn-error">Reset</button>
+        </div>
     </form>
-    <table class="table table-striped">
+
+    <table class="table">
         <thead>
             <tr>
                 <th>Timestamp</th>
                 <th>Operation</th>
                 <th>Flavor</th>
-                <th>Price per unit</th>
+                <th>Price Per Unit</th>
                 <th>Quantity</th>
-                <th>Total amount</th>
+                <th>Total Amount</th>
             </tr>
         </thead>
         <tbody>
             {% for record in history %}
                 <tr>
-                    <td>{{ record.timestamp }}</td>
+                    <td>{{ record.timestamp.strftime("%Y-%m-%d %H:%M:%S") }}</td>
                     <td>{{ record.operation }}</td>
                     <td>{{ record.flavor or '-'}}</td>
                     <td>{{ record.price_per_unit or '-'}}</td>
@@ -63,3 +68,4 @@
         </tbody>
     </table>
 {% endblock %}
+
